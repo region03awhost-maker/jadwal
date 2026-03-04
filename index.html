@@ -107,39 +107,3 @@ function cekNIK() {
 
 </body>
 </html>
-
-// ====== GANTI LINK DI SINI ======
-const scriptURL = "https://script.google.com/macros/s/AKfycbypDY_nyCbEN3r0V3FCstpo1QE9cYJik_N8-mqDeZEJjutT3fDN6KBbw7aR0jhJyJvyxg/exec";
-
-// Validasi hanya angka
-document.getElementById("nik").addEventListener("input", function () {
-    this.value = this.value.replace(/[^0-9]/g, "");
-});
-
-document.getElementById("formNIK").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    const nik = document.getElementById("nik").value;
-    const resultBox = document.getElementById("resultBox");
-
-    resultBox.innerHTML = "Mengecek...";
-
-    fetch(scriptURL + "?nik=" + nik)
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === "found") {
-                resultBox.innerHTML =
-                    "Nama: " + data.nama + "<br>Group: " + data.group;
-            } else {
-                resultBox.innerHTML = "NIK tidak ditemukan";
-            }
-        })
-        .catch(err => {
-            resultBox.innerHTML = "Gagal koneksi";
-        });
-});
-
-</script>
-
-</body>
-</html>
