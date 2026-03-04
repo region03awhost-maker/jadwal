@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Jadwal</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #dcdcdc, #bfbfbf);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.card {
+  background: #0d0d0d;
+  padding: 30px;
+  width: 420px;
+  border-radius: 16px;
+  color: white;
+}
+
+input, select {
+  width: 100%;
+  height: 42px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: none;
+  padding: 0 10px;
+}
+
+button {
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  border: none;
+  background: #4da6ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2f8cff;
+}
+
+.result {
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h3>Form Request Jadwal</h3>
+
+  <form id="requestForm">
+    <input type="text" id="nik" placeholder="NIK" required>
+    <input type="text" id="nama" placeholder="Nama" required>
+    <input type="text" id="group" placeholder="Group" required>
+
+    <select id="shift" required>
+      <option value="">Pilih Shift</option>
+      <option value="Pagi">Pagi</option>
+      <option value="Siang">Siang</option>
+      <option value="Malam">Malam</option>
+    </select>
+
+    <button type="submit">Kirim Request</button>
+  </form>
+
+  <div class="result" id="resultBox"></div>
+</div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbypDY_nyCbEN3r0V3FCstpo1QE9cYJik_N8-mqDeZEJjutT3fDN6KBbw7aR0jhJyJvyxg/exec";
+
+document.getElementById("requestForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const data = {
+    nik: document.getElementById("nik").value,
+    nama: document.getElementById("nama").value,
+    group: document.getElementById("group").value,
+    shift: document.getElementById("shift").value
+  };
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(response => {
+    if (response.status === "success") {
+      document.getElementById("resultBox").innerHTML = "Request berhasil dikirim!";
+      document.getElementById("requestForm").reset();
+    } else {
+      document.getElementById("resultBox").innerHTML = "Gagal mengirim.";
+    }
+  })
+  .catch(error => {
+    document.getElementById("resultBox").innerHTML = "Terjadi kesalahan koneksi.";
+  });
+});
+</script>
+
+</body>
+</html>
