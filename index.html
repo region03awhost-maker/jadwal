@@ -52,10 +52,17 @@ button {
     <h3>INPUT NIK SEBELUM REQUEST</h3>
     <p>Periode request 1–15</p>
 
-    <form id="formNIK">
-        <input type="text" id="nik" placeholder="Masukkan NIK" required>
+    <div class="card">
+    <h1>INPUT NIK SEBELUM REQUEST</h1>
+    <p>Periode request dibuka tanggal 1–15 setiap bulan</p>
+
+    <form onsubmit="return cekNIK()">
+        <label>Masukkan NIK:</label>
+        <input type="text" id="nik" placeholder="Contoh: 2012022847" required>
+
         <button type="submit">Cek Nama & Group</button>
     </form>
+</div>
 
     <div class="result" id="resultBox"></div>
 </div>
