@@ -81,11 +81,15 @@ button:hover {
     background: linear-gradient(to right, #4da6ff, #0066cc);
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="card">
+    <h3>INPUT NIK SEBELUM REQUEST</h3>
+    <p>Periode request 1–15</p>
+
+    <div class="card">
     <h1>INPUT NIK SEBELUM REQUEST</h1>
     <p>Periode request dibuka tanggal 1–15 setiap bulan</p>
 
@@ -97,12 +101,42 @@ button:hover {
     </form>
 </div>
 
+    <div class="result" id="resultBox"></div>
+</div>
+
 <script>
-function cekNIK() {
+
+// ====== GANTI LINK DI SINI ======
+const scriptURL = "https://script.google.com/macros/s/AKfycbypDY_nyCbEN3r0V3FCstpo1QE9cYJik_N8-mqDeZEJjutT3fDN6KBbw7aR0jhJyJvyxg/exec";
+
+// Validasi hanya angka
+document.getElementById("nik").addEventListener("input", function () {
+    this.value = this.value.replace(/[^0-9]/g, "");
+});
+
+document.getElementById("formNIK").addEventListener("submit", function(e) {
+    e.preventDefault();
+
     const nik = document.getElementById("nik").value;
-    alert("NIK yang dimasukkan: " + nik);
-    return false; // supaya tidak reload halaman
-}
+    const resultBox = document.getElementById("resultBox");
+
+    resultBox.innerHTML = "Mengecek...";
+
+    fetch(scriptURL + "?nik=" + nik)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "found") {
+                resultBox.innerHTML =
+                    "Nama: " + data.nama + "<br>Group: " + data.group;
+            } else {
+                resultBox.innerHTML = "NIK tidak ditemukan";
+            }
+        })
+        .catch(err => {
+            resultBox.innerHTML = "Gagal koneksi";
+        });
+});
+
 </script>
 
 </body>
